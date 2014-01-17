@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="windowedapplication_creationCompleteHandler(event)"
+					   >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function windowedapplication_creationCompleteHandler(event:FlexEvent):void
+			{
+				var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo(); 
+				var file:File = File.applicationDirectory.resolvePath("C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe"); 
+				nativeProcessStartupInfo.executable = file;
+				nativeProcessStartupInfo.workingDirectory = File.applicationDirectory;
+				var convertOptions:String = ':srcFilename,-resize,700x700,:destFilename';        // command (1)
+				// command processing
+				var srcFilename:String = 'C:/Users/yangboz/Adobe Flash Builder 4.7/ImageMagickExample00/src/Desert.jpg';
+				var destFilename:String = 'C:/Users/yangboz/Adobe Flash Builder 4.7/ImageMagickExample00/src/Desert50%.png';
+				convertOptions = convertOptions.replace(':srcFilename', srcFilename);
+				convertOptions = convertOptions.replace(':destFilename', destFilename);
+				var processArgs:Vector.<String> = new Vector.<String>();
+				var parts:Array = convertOptions.split(',');
+				for (var i:int =0; i<parts.length; i++) {
+					processArgs.push(parts[i]);
+				}
+				nativeProcessStartupInfo.arguments = processArgs; 
+				//
+				var process:NativeProcess = new NativeProcess();
+				process.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, dataHandler); 
+				process.addEventListener(ProgressEvent.STANDARD_ERROR_DATA, errorDataHandler); 
+				process.start(nativeProcessStartupInfo); 
+				//
+				//					"C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe" "C:\Users\yangboz\Adobe Flash Builder 4.7\ImageMagickExample00\src\Desert.jpg" -resize 50% "C:\Users\yangboz\Adobe Flash Builder 4.7\ImageMagickExample00\src\Desert50%.png"
+//				process.standardInput.writeUTF("'C:\Users\yangboz\Adobe Flash Builder 4.7\ImageMagickExample00\src\Desert.jpg' -resize 50% 'C:\Users\yangboz\Adobe Flash Builder 4.7\ImageMagickExample00\src\Desert50%.png'");
+				var dataBytes:ByteArray = new ByteArray(); 
+				var errorBytes:ByteArray = new ByteArray(); 
+				function dataHandler(event:ProgressEvent):void
+				{ 
+					trace("dataHandler(event):",event.toString());
+					var bytes : IDataInput = process.standardOutput as IDataInput;
+		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
+		            trace(outputString);
+		            textInput.text = outputString;
+				}
+				function errorDataHandler(event:ProgressEvent):void
+				{ 
+					trace("errorDataHandler(event):",event.toString());
+					var bytes : IDataInput = process.standardError as IDataInput;
+		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
+		            trace("errorDataHandler:",outputString);
+//					errorBytes.writeBytes(process.standardError.readBytes(process.standardError.bytesAvailable)); 
+//					trace("errorBytes:",errorBytes.toString());
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:TextArea id="textInput" width="100%" height="100%"/>
+</s:WindowedApplication>
