@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="windowedapplication_creationCompleteHandler(event)"
+					   >
+	<fx:Script>
+		<![CDATA[
+			import com.godpaper.as3.ImageMagick.AS3ImageMagick;
+			import com.godpaper.as3.ImageMagick.ImageMagickEvent;
+			import com.godpaper.as3.ImageMagick.ImageMagickFacts;
+			import com.godpaper.as3.ImageMagick.ImageMagickFactsBuilder;
+			
+			import mx.events.FlexEvent;
+			//
+			private var as3ImageMagick:AS3ImageMagick;
+			
+			protected function windowedapplication_creationCompleteHandler(event:FlexEvent):void
+			{
+				//Prepare the ImageMagick required parameters and options here.
+				var srcFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert.jpg';
+				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
+				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
+				var facts:ImageMagickFacts = new ImageMagickFactsBuilder(srcFilename,destFilename)
+					.with_resize("700x700")
+					.build();
+				//Execute the ImageMagick native process here.
+				as3ImageMagick = new AS3ImageMagick(exePath,facts);
+				//
+				as3ImageMagick.start();
+				//Event listeners to the ImageMagick.
+				as3ImageMagick.addEventListener(ImageMagickEvent.STANDARD_OUTPUT_DATA, dataHandler); 
+				as3ImageMagick.addEventListener(ImageMagickEvent.STANDARD_ERROR_DATA, errorDataHandler); 
+				as3ImageMagick.addEventListener(ImageMagickEvent.STANDARD_OUTPUT_CLOSE,outputCloseHandler);
+				//
+				var dataBytes:ByteArray = new ByteArray(); 
+				var errorBytes:ByteArray = new ByteArray(); 
+				//
+				function dataHandler(event:ProgressEvent):void
+				{ 
+					trace("dataHandler(event):",event.toString());
+					var bytes:IDataInput = process.standardOutput as IDataInput;
+		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
+		            trace(outputString);
+		            textInput.text = outputString;
+				}
+				function errorDataHandler(event:ProgressEvent):void
+				{ 
+					trace("errorDataHandler(event):",event.toString());
+					var bytes:IDataInput = process.standardError as IDataInput;
+		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
+		            trace("errorDataHandler:",outputString);
+//					errorBytes.writeBytes(process.standardError.readBytes(process.standardError.bytesAvailable)); 
+//					trace("errorBytes:",errorBytes.toString());
+				}
+				function outputCloseHandler(event:Event):void
+				{
+					trace("outputCloseHandler:",event.toString());
+				}
+			}
+			public function get process():NativeProcess
+			{
+				return as3ImageMagick.nativeProcess;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:TextArea id="textInput" width="100%" height="100%"/>
+</s:WindowedApplication>

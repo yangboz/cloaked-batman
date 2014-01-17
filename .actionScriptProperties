@@ -17,6 +17,9 @@
     <application path="ImageMagickExample00.mxml">
       <airExcludes/>
     </application>
+    <application path="AS3ImageMagickExample.mxml">
+      <airExcludes/>
+    </application>
   </applications>
   <modules/>
   <workers/>
@@ -27,9 +30,12 @@
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>
 </actionScriptProperties>
-
