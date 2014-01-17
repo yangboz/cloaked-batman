@@ -7,6 +7,9 @@ Adobe AIR communicating with native processes(ImageMagick) with AS3 Builder Desi
 
 http://htmlpreview.github.io/?https://github.com/yangboz/as3ImageMagick/blob/master/target/asdoc/index.html
 
+* AS3 Library
+
+https://github.com/yangboz/as3ImageMagick
 
 References
 ==============
