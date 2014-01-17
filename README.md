@@ -3,6 +3,10 @@ cloaked-batman
 
 Adobe AIR communicating with native processes(ImageMagick) with AS3 Builder Design Pattern demostrated.
 
+* ASDOC
+
+http://htmlpreview.github.io/?https://github.com/yangboz/cloaked-batman/blob/master/MQTTClient_AS3/target/asdoc/index.html
+
 
 References
 ==============
