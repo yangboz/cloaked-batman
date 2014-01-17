@@ -16,8 +16,8 @@
 				nativeProcessStartupInfo.workingDirectory = File.applicationDirectory;
 				var convertOptions:String = ':srcFilename,-resize,700x700,:destFilename';        // command (1)
 				// command processing
-				var srcFilename:String = 'C:/Users/yangboz/Adobe Flash Builder 4.7/ImageMagickExample00/src/Desert.jpg';
-				var destFilename:String = 'C:/Users/yangboz/Adobe Flash Builder 4.7/ImageMagickExample00/src/Desert50%.png';
+				var srcFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert.jpg';
+				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
 				convertOptions = convertOptions.replace(':srcFilename', srcFilename);
 				convertOptions = convertOptions.replace(':destFilename', destFilename);
 				var processArgs:Vector.<String> = new Vector.<String>();
