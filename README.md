@@ -5,7 +5,7 @@ Adobe AIR communicating with native processes(ImageMagick) with AS3 Builder Desi
 
 * ASDOC
 
-http://htmlpreview.github.io/?https://github.com/yangboz/cloaked-batman/blob/master/MQTTClient_AS3/target/asdoc/index.html
+http://htmlpreview.github.io/?https://github.com/yangboz/as3ImageMagick/blob/master/target/asdoc/index.html
 
 
 References
