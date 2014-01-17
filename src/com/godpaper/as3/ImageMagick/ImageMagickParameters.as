@@ -102,7 +102,8 @@ package com.godpaper.as3.ImageMagick
 			for (var i:int =0; i<parts.length; i++) {
 				processArgs.push(parts[i]);
 			}
-			return new Vector.<String>();
+//			return new Vector.<String>();
+			return processArgs;
 		}
 		//--------------------------------------------------------------------------
 		//

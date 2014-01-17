@@ -22,7 +22,7 @@
 				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
 				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
 				var facts:ImageMagickFacts = new ImageMagickFactsBuilder(srcFilename,destFilename)
-					.with_resize("700x700")
+					.with_resize("500x500")
 					.build();
 				//Execute the ImageMagick native process here.
 				as3ImageMagick = new AS3ImageMagick(exePath,facts);
