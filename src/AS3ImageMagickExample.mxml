@@ -18,8 +18,8 @@
 			protected function windowedapplication_creationCompleteHandler(event:FlexEvent):void
 			{
 				//Prepare the ImageMagick required parameters and options here.
-				var srcFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert.jpg';
-				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
+				var srcFilename:String = 'Desert.jpg';
+				var destFilename:String = 'Desert_output.png';
 //				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
 				var exePath:String = "convert.exe";
 				var facts:ImageMagickFacts = new ImageMagickFactsBuilder(srcFilename,destFilename)
