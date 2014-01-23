@@ -16,10 +16,10 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="ImageMagickExample00.mxml">
+    <application path="AS3ImageMagickExample.mxml">
       <airExcludes/>
     </application>
-    <application path="AS3ImageMagickExample.mxml">
+    <application path="ImageMagickExample00.mxml">
       <airExcludes/>
     </application>
   </applications>
