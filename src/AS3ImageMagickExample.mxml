@@ -2,7 +2,6 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   creationComplete="windowedapplication_creationCompleteHandler(event)"
 					   >
 	<fx:Script>
 		<![CDATA[
@@ -11,22 +10,31 @@
 			import com.godpaper.as3.ImageMagick.ImageMagickFacts;
 			import com.godpaper.as3.ImageMagick.ImageMagickFactsBuilder;
 			
-			import mx.events.FlexEvent;
+			import spark.events.IndexChangeEvent;
+			
 			//
 			private var as3ImageMagick:AS3ImageMagick;
 			
-			protected function windowedapplication_creationCompleteHandler(event:FlexEvent):void
+			public function get process():NativeProcess
 			{
+				return as3ImageMagick.nativeProcess;
+			}
+			
+			//
+			private function onExecuteBtnClick(event:MouseEvent):void
+			{
+				//Clean output console firstly
+				textOutput.text = "";
 				//Prepare the ImageMagick required parameters and options here.
-				var srcFilename:String = 'Desert.jpg';
-				var destFilename:String = 'Desert_output.png';
-//				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
-				var exePath:String = "convert.exe";
-				var facts:ImageMagickFacts = new ImageMagickFactsBuilder(srcFilename,destFilename)
-					.with_resize("500x500")
+//				var srcFilename:String = 'Desert.jpg';
+//				var destFilename:String = 'Desert_output_convert.png';
+//				//				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
+//				var exePath:String = "convert.exe";
+				var facts:ImageMagickFacts = new ImageMagickFactsBuilder(srcTextInput.text,desTextInput.text)
+					.with_command(argsTextInput.text)
 					.build();
 				//Execute the ImageMagick native process here.
-				as3ImageMagick = new AS3ImageMagick(exePath,facts);
+				as3ImageMagick = new AS3ImageMagick(exeTextInput.text,facts);
 				//
 				as3ImageMagick.start();
 				//Event listeners to the ImageMagick.
@@ -43,25 +51,57 @@
 					var bytes:IDataInput = process.standardOutput as IDataInput;
 		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
 		            trace(outputString);
-		            textInput.text = outputString;
+		            textOutput.text = outputString;
 				}
 				function errorDataHandler(event:ProgressEvent):void
 				{ 
 					trace("errorDataHandler(event):",event.toString());
 					var bytes:IDataInput = process.standardError as IDataInput;
 		            var outputString: String = bytes.readUTFBytes(bytes.bytesAvailable).toString();
-		            trace("errorDataHandler:",outputString);
-//					errorBytes.writeBytes(process.standardError.readBytes(process.standardError.bytesAvailable)); 
-//					trace("errorBytes:",errorBytes.toString());
+//					            trace("errorDataHandler:",outputString);
+					//					errorBytes.writeBytes(process.standardError.readBytes(process.standardError.bytesAvailable)); 
+					//					trace("errorBytes:",errorBytes.toString());
+					textOutput.text = outputString;
 				}
 				function outputCloseHandler(event:Event):void
 				{
 					trace("outputCloseHandler:",event.toString());
+					textOutput.text = event.toString();
 				}
 			}
-			public function get process():NativeProcess
+			
+			protected function exe_path_list_changeHandler(event:IndexChangeEvent):void
 			{
-				return as3ImageMagick.nativeProcess;
+				var srcFilename:String;
+				var destFilename:String;
+				//				var exePath:String = "C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe";
+				var exePath:String;
+				var arguments:String;
+				switch(exe_path_list.selectedIndex)
+				{
+					case 0:
+						srcFilename = 'Desert.jpg'; 
+						destFilename = 'Desert_output_convert.png';
+						exePath = "convert.exe";
+						arguments = "-resize,500x500";
+						break;
+					case 1:
+						srcFilename = 'rose.jpg,red-ball.png'; 
+						destFilename = 'montage_output.jpg';
+						exePath = "montage.exe";
+						arguments = "-background,#333333,-geometry,+4+4";
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					default:
+						break;
+				}
+				this.srcTextInput.text = srcFilename;
+				this.desTextInput.text = destFilename;
+				this.exeTextInput.text = exePath;
+				this.argsTextInput.text = arguments;
 			}
 			
 		]]>
@@ -69,5 +109,47 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:TextArea id="textInput" width="100%" height="100%"/>
+	<s:VGroup width="100%" height="100%">
+		
+		<s:HGroup left="0" right="0" verticalAlign="middle" width="100%">
+			
+			<s:Label  text="src:" fontWeight="bold" />
+			
+			<s:TextInput id="srcTextInput" width="100%" text="Desert.jpg"/>
+			
+		</s:HGroup>
+		
+		<s:HGroup left="0" right="0" verticalAlign="middle" width="100%">
+			
+			<s:Label text="des:" fontWeight="bold" />
+			
+			<s:TextInput id="desTextInput" width="100%" text="Desert_output_convert.png"/>
+			
+		</s:HGroup>
+		
+		<s:HGroup left="0" right="0" verticalAlign="middle" width="100%">
+			
+			<s:Label text="args:" fontWeight="bold" />
+			
+			<s:TextInput id="argsTextInput" width="100%" text="500x500"/>
+			
+		</s:HGroup>
+		
+		<s:HGroup left="0" right="0" verticalAlign="middle" width="100%">
+			
+			<s:Label text="exePath:" fontWeight="bold" />
+			
+			<s:TextInput id="exeTextInput" width="100%" text="convert.exe"/>
+			<s:List id="exe_path_list" change="exe_path_list_changeHandler(event)"> 
+				<mx:ArrayCollection>
+					<fx:String>convert.exe</fx:String> 
+					<fx:String>montage.exe</fx:String> 
+				</mx:ArrayCollection>
+			</s:List>
+		</s:HGroup>
+		
+		<s:Button label="EXECUTE" click="onExecuteBtnClick(event)"/>
+		<s:Label text="Output console:" fontWeight="bold" />
+		<s:TextArea id="textOutput" width="100%" height="100%"/>
+	</s:VGroup>
 </s:WindowedApplication>

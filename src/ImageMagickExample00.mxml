@@ -11,13 +11,17 @@
 			protected function windowedapplication_creationCompleteHandler(event:FlexEvent):void
 			{
 				var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo(); 
-				var file:File = File.applicationDirectory.resolvePath("C:/Program Files/ImageMagick-6.8.8-Q16/convert.exe"); 
+//				var file:File = File.applicationDirectory.resolvePath("convert.exe");
+				var file:File = File.applicationDirectory.resolvePath("montage.exe");
 				nativeProcessStartupInfo.executable = file;
 				nativeProcessStartupInfo.workingDirectory = File.applicationDirectory;
-				var convertOptions:String = ':srcFilename,-resize,700x700,:destFilename';        // command (1)
+//				var convertOptions:String = ':srcFilename,-resize,700x700,:destFilename';        // command (1)
+				var convertOptions:String = ':srcFilename,-geometry,+4+4,:destFilename';        // command (1)
 				// command processing
-				var srcFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert.jpg';
-				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
+//				var srcFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert.jpg';
+//				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/Desert50%.png';
+				var srcFilename:String = 'rose.jpg,red-ball.png';
+				var destFilename:String = 'C:/Users/yangboz/git/cloaked-batman/src/montage.jpg';
 				convertOptions = convertOptions.replace(':srcFilename', srcFilename);
 				convertOptions = convertOptions.replace(':destFilename', destFilename);
 				var processArgs:Vector.<String> = new Vector.<String>();
