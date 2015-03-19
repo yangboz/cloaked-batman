@@ -20,4 +20,9 @@ AIR native process: http://help.adobe.com/en_US/air/html/dev/WSb2ba3b1aad8a27b06
 
 AS3 builder design pattern: http://www.jonnyreeves.co.uk/2010/builder-pattern-in-actionscript-fluent-constructors/
 
+TODO
+==============
 
+#1.Based on MXML application : https://github.com/yangboz/petulant-octo-dubstep
+
+#2.Ref:http://aaronhardy.com/flex/imageinspector-an-image-zoom-pan-component/
